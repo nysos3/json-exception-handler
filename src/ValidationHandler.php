@@ -41,7 +41,7 @@ trait ValidationHandler
                 $path = str_replace('/', ':', request()->path());
                 $error = [
                     'status'    => '422',
-                    'code'      => "V:{$path}:{$field}",
+                    'code'      => "V:{$path}::{$field}",
                     'source'    => ['parameter' => $field],
                     'title'     => $attributes['title'],
                     'detail'    => $message,
