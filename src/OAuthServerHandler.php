@@ -12,7 +12,7 @@ trait OAuthServerHandler
 
         $error = [[
             'status'    => (string)$statusCode,
-            'code'      => $this->getCode('not_found_http'),
+            'code'      => (string)$this->getCode('not_found_http'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => $exception->getErrorType(),
             'detail'    => $exception->getMessage(),

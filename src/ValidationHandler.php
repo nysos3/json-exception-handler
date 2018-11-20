@@ -40,7 +40,7 @@ trait ValidationHandler
                 $attributes = $this->getValidationAttributes($validationFails, $key, $field);
                 $error = [
                     'status'    => '422',
-                    'code'      => $attributes['code'],
+                    'code'      => (string)$attributes['code'],
                     'source'    => ['parameter' => $field],
                     'title'     => $attributes['title'],
                     'detail'    => $message,
@@ -55,7 +55,7 @@ trait ValidationHandler
     public function getValidationAttributes(array $validationFails, $key, $field)
     {
         return [
-            'code' => $this->getValidationCode($validationFails, $key, $field),
+            'code' => (string)$this->getValidationCode($validationFails, $key, $field),
             'title' => $this->getValidationTitle($validationFails, $key, $field),
         ];
     }

@@ -19,7 +19,7 @@ trait ModelNotFoundHandler
 
         $error = [[
             'status'    => '404',
-            'code'      => $this->getCode('model_not_found'),
+            'code'      => (string)$this->getCode('model_not_found'),
             'source'    => ['pointer' => 'data/id'],
             'title'     => $exception->getMessage(),
             'detail'    => __('exception::exceptions.model_not_found.title', ['model' => $entity]),

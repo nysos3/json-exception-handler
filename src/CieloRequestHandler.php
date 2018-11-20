@@ -14,7 +14,7 @@ trait CieloRequestHandler
             $cieloError = $e->getCieloError();
             $error = [
                 'status'    => (string)$e->getCode(),
-                'code'      => $this->getCode('cielo').$cieloError->getCode(),
+                'code'      => (string)$this->getCode('cielo').$cieloError->getCode(),
                 'source'    => ['pointer' => $e->getFile().':'.$e->getLine()],
                 'title'     => $e->getMessage(),
                 'detail'    => $cieloError->getMessage(),

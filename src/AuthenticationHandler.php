@@ -10,7 +10,7 @@ trait AuthenticationHandler
     {
         $error = [[
             'status'    => '401',
-            'code'      => $this->getCode('authentication'),
+            'code'      => (string)$this->getCode('authentication'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => $exception->getMessage(),
             'detail'    => __('exception::exceptions.authentication.detail'),

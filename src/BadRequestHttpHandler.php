@@ -12,7 +12,7 @@ trait BadRequestHttpHandler
 
         $error = [[
             'status'    => (string)$statusCode,
-            'code'      => $this->getCode('bad_request'),
+            'code'      => (string)$this->getCode('bad_request'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => 'bad_request',
             'detail'    => $exception->getMessage(),

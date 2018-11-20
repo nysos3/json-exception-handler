@@ -44,7 +44,7 @@ trait JsonHandler
     {
         $error = [[
             'status'    => (string)$this->getStatusCode(),
-            'code'      => $this->getCode(),
+            'code'      => (string)$this->getCode(),
             'source'    => ['pointer' => $this->getDescription()],
             'title'     => strtolower(class_basename($this->exception)),
             'detail'    => $this->getMessage(),
