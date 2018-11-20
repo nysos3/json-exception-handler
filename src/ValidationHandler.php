@@ -38,9 +38,10 @@ trait ValidationHandler
         foreach ($validationMessages as $field => $messages) {
             foreach ($messages as $key => $message) {
                 $attributes = $this->getValidationAttributes($validationFails, $key, $field);
+                $path = str_replace('/', ':', request()->path());
                 $error = [
                     'status'    => '422',
-                    'code'      => (string)$attributes['code'],
+                    'code'      => "V:{$path}:{$field}:{$key}",
                     'source'    => ['parameter' => $field],
                     'title'     => $attributes['title'],
                     'detail'    => $message,
