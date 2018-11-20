@@ -43,7 +43,7 @@ trait JsonHandler
     public function setDefaultResponse()
     {
         $error = [[
-            'status'    => $this->getStatusCode(),
+            'status'    => (string)$this->getStatusCode(),
             'code'      => $this->getCode(),
             'source'    => ['pointer' => $this->getDescription()],
             'title'     => strtolower(class_basename($this->exception)),

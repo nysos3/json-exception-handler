@@ -49,7 +49,7 @@ trait ClientHandler
         }
 
         $error = [[
-            'status'    => $statusCode,
+            'status'    => (string)$statusCode,
             'code'      => $code,
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => $title,

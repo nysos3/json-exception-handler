@@ -9,7 +9,7 @@ trait MissingScopeHandler
     public function missingScopeException(MissingScopeException $exception)
     {
         $error = [[
-            'status'    => 403,
+            'status'    => '403',
             'code'      => $this->getCode('missing_scope'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => 'missing_scope',

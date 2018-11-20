@@ -39,7 +39,7 @@ trait ValidationHandler
             foreach ($messages as $key => $message) {
                 $attributes = $this->getValidationAttributes($validationFails, $key, $field);
                 $error = [
-                    'status'    => 422,
+                    'status'    => '422',
                     'code'      => $attributes['code'],
                     'source'    => ['parameter' => $field],
                     'title'     => $attributes['title'],

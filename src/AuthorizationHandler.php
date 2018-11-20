@@ -9,7 +9,7 @@ trait AuthorizationHandler
     public function authorizationException(AuthorizationException $exception)
     {
         $error = [[
-            'status'    => 403,
+            'status'    => '403',
             'code'      => $this->getCode('authorization'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => __('exception::exceptions.authorization.title'),

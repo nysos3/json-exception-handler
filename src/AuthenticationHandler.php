@@ -9,7 +9,7 @@ trait AuthenticationHandler
     public function authenticationException(AuthenticationException $exception)
     {
         $error = [[
-            'status'    => 401,
+            'status'    => '401',
             'code'      => $this->getCode('authentication'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => $exception->getMessage(),

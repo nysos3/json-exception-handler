@@ -18,7 +18,7 @@ trait ModelNotFoundHandler
         $ids = implode($exception->getIds(), ',');
 
         $error = [[
-            'status'    => 404,
+            'status'    => '404',
             'code'      => $this->getCode('model_not_found'),
             'source'    => ['pointer' => 'data/id'],
             'title'     => $exception->getMessage(),

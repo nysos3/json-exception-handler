@@ -11,7 +11,7 @@ trait BadRequestHttpHandler
         $statusCode = $exception->getStatusCode();
 
         $error = [[
-            'status'    => $statusCode,
+            'status'    => (string)$statusCode,
             'code'      => $this->getCode('bad_request'),
             'source'    => ['pointer' => $exception->getFile().':'.$exception->getLine()],
             'title'     => 'bad_request',
