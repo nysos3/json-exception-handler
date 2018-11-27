@@ -17,7 +17,7 @@ trait NotFoundHttpHandler
         $error = [[
             'status' => (string)$statuCode,
             'code'   => (string)$this->getCode('not_found_http'),
-            'source' => ['pointer' => $exception->getFile().':'.$exception->getLine()],
+            'source' => ['pointer' => request()->path()],
             'title'  => $this->getDescription($exception),
             'detail' => $this->getNotFoundMessage($exception),
         ]];
