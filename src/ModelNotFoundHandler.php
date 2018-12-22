@@ -21,21 +21,15 @@ trait ModelNotFoundHandler
       'attribute' => 'id'
     ];
 
-    if (config('json-exception-handler.show_details_in_meta')) {
-      $meta['__raw_error__'] = [
-        'message' => $exception->getMessage(),
-        'backtrace' => explode("\n", $exception->getTraceAsString()),
-      ];
-    }
 
-    $error = [[
-      'status' => '404',
-      'code' => (string) $this->getCode('model_not_found'),
-      'source' => ['pointer' => 'data/id'],
-      'title' => $exception->getMessage(),
-      'detail' => __('exception::exceptions.model_not_found.title', ['model' => $entity]),
-      'meta' => $meta
-    ]];
+    $error = $this->getDefaultError();
+    $error['status'] = '404';
+    $error['code'] = (string) $this->getCode('model_not_found');
+    $error['title'] = 'model_not_found';
+    $error['detail'] = __('exception::exceptions.model_not_found.title', ['model' => $entity]);
+    $error['meta']['attribute'] = 'id';
+
+    $error = [$error];
 
     $this->jsonApiResponse->setStatus(404);
     $this->jsonApiResponse->setErrors($error);

@@ -45,6 +45,8 @@ return [
     ],
   ],
 
+  'show_details_in_meta' => (env('APP_ENV', 'production') !== 'production'),
+
   /*
   |---------------------------------------------------------------------------
   | Default Http Code

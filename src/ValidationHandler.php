@@ -39,17 +39,14 @@ trait ValidationHandler
       foreach ($messages as $key => $message) {
         $attributes = $this->getValidationAttributes($validationFails, $key, $field);
         $path = str_replace('/', ':', request()->path());
-        $error = [
-          'status' => '422',
-          'code' => "V:{$path}::{$field}",
-          'source' => ['parameter' => $field],
-          'title' => $attributes['title'],
-          'detail' => $message,
-          'meta' => [
-            'attribute' => $field,
-            'message' => $message
-          ]
-        ];
+        $error = $this->getDefaultError();
+        $error['status'] = '422';
+        $error['code'] = "V:{$path}::{$field}";
+        $error['source'] = ['parameter' => $field];
+        $error['title'] = $attributes['title'];
+        $error['detail'] = $message;
+        $error['meta']['attribute'] = $field;
+        $error['meta']['message'] = $message;
         array_push($errors, $error);
       }
     }

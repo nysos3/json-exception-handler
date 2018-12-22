@@ -13,24 +13,17 @@ trait NotFoundHttpHandler
    */
   public function notFoundHttpException(NotFoundHttpException $exception)
   {
-    $statuCode = $exception->getStatusCode();
-    $meta = [];
-    if (config('json-exception-handler.show_details_in_meta')) {
-      $meta['__raw_error__'] = [
-        'message' => $exception->getMessage(),
-        'backtrace' => explode("\n", $exception->getTraceAsString()),
-      ];
-    }
-    $error = [[
-      'status' => (string) $statuCode,
-      'code' => (string) $this->getCode('not_found_http'),
-      'source' => ['pointer' => request()->path()],
-      'title' => $this->getDescription($exception),
-      'detail' => $this->getNotFoundMessage($exception),
-      'meta' => $meta
-    ]];
+    $statusCode = $exception->getStatusCode();
 
-    $this->jsonApiResponse->setStatus($statuCode);
+    $error = $this->getDefaultError();
+    $error['status'] = (string) $statusCode;
+    $error['code'] = (string) $this->getCode('not_found_http');
+    $error['title'] = $this->getDescription($exception);
+    $error['detail'] = $this->getNotFoundMessage($exception);
+
+    $error = [$error];
+
+    $this->jsonApiResponse->setStatus($statusCode);
     $this->jsonApiResponse->setErrors($error);
   }
 

@@ -34,27 +34,34 @@ trait JsonHandler
    */
   private $exception;
 
+  public function getDefaultError()
+  {
+    $meta = [];
+    if (config($this->configFile . '.show_details_in_meta')) {
+      $meta['__raw_error__'] = [
+        'message' => $this->getMessage(),
+        'detail' => $this->getDescription(),
+        'backtrace' => explode("\n", $this->exception->getTraceAsString()),
+      ];
+    }
+    $error = [
+      'status' => (string) $this->getStatusCode(),
+      'code' => (string) $this->getCode(),
+      'title' => str_replace('Exception', '', class_basename($this->exception)),
+      'detail' => (config($this->configFile . '.show_details_in_meta')) ? $this->getMessage() : 'An unknown error occurred',
+      'meta' => $meta,
+    ];
+
+    return $error;
+  }
+
   /**
    * Set the default response on $response attribute. Get default value from
    * methods.
    */
   public function setDefaultResponse()
   {
-    $meta = [];
-    if (config($this->configFile . '.show_details_in_meta')) {
-      $meta['__raw_error__'] = [
-        'message' => $this->getMessage(),
-        'backtrace' => explode("\n", $this->exception->getTraceAsString()),
-      ];
-    }
-    $error = [[
-      'status' => (string) $this->getStatusCode(),
-      'code' => (string) $this->getCode(),
-      'source' => ['pointer' => $this->getDescription()],
-      'title' => str_replace('Exception', '', class_basename($this->exception)),
-      'detail' => $this->getMessage(),
-      'meta' => $meta,
-    ]];
+    $error = [$this->getDefaultError()];
 
     $this->jsonApiResponse->setStatus($this->getStatusCode());
     $this->jsonApiResponse->setErrors($error);
