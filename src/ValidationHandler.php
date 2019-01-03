@@ -33,7 +33,6 @@ trait ValidationHandler
   {
     $validationMessages = $this->getTreatedMessages($exception);
     $validationFails = $this->getTreatedFails($exception);
-
     $errors = [];
     foreach ($validationMessages as $field => $messages) {
       foreach ($messages as $key => $message) {
@@ -64,15 +63,20 @@ trait ValidationHandler
 
   public function getValidationTitle(array $validationFails, $key, $field)
   {
-    return __('exception::exceptions.validation.title', [
-      'fails' => array_keys($validationFails[$field])[$key],
+    if (array_key_exists($field, $validationFails)) {
+      return __('exception::exceptions.validation.title', [
+        'fails' => array_keys($validationFails[$field])[$key],
+        'field' => $field,
+      ]);
+    }
+    return __('exception::exceptions.validation.generic_title', [
       'field' => $field,
     ]);
   }
 
   public function getValidationCode(array $validationFails, $key, $field)
   {
-    $rule = strtolower(array_keys($validationFails[$field])[$key]);
+    $rule = (array_key_exists($field, $validationFails)) ? strtolower(array_keys($validationFails[$field])[$key]) : 'default';
 
     return config($this->configFile . '.codes.validation_fields.' . $field . '.' . $rule);
   }
