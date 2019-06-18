@@ -45,6 +45,9 @@ return [
     ],
   ],
 
+  'additional_headers' => [],
+  'json_options' => JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES,
+
   'show_details_in_meta' => (env('APP_ENV', 'production') !== 'production'),
 
   /*

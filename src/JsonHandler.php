@@ -142,7 +142,9 @@ trait JsonHandler
 
     return response()->json(
       $this->jsonApiResponse->toArray(),
-      $this->jsonApiResponse->getStatus()
+      $this->jsonApiResponse->getStatus(),
+      config($this->configFile . '.additional_headers'),
+      config($this->configFile . '.json_options')
     );
   }
 
