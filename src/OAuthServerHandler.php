@@ -13,8 +13,8 @@ trait OAuthServerHandler
     $error = $this->getDefaultError();
     $error['status'] = (string) $statusCode;
     $error['code'] = (string) $this->getCode('oauth_server');
-    $error['title'] = 'authenticating';
-    $error['detail'] = $exception->getErrorType();
+    $error['title'] = 'auth:' . $exception->getErrorType();
+    $error['detail'] = $exception->getMessage();
 
     $error = [$error];
 
