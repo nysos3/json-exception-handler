@@ -133,7 +133,7 @@ class Handler extends ExceptionHandler
 
     ...
 
-    public function render($request, Exception $exception)
+    public function render($request, \Throwable $exception)
     {   
         if ($request->expectsJson()) {
             return $this->jsonResponse($exception);

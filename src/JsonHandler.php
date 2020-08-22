@@ -2,7 +2,7 @@
 
 namespace SMartins\JsonHandler;
 
-use Exception;
+use Throwable;
 use SMartins\JsonHandler\Responses\JsonApiResponse;
 
 trait JsonHandler
@@ -30,9 +30,9 @@ trait JsonHandler
 
   /**
    * Receive exception instance to be used on methods.
-   * @var Exception
+   * @var Throwable
    */
-  private $exception;
+  private $throwable;
 
   public function getDefaultError()
   {
@@ -41,13 +41,13 @@ trait JsonHandler
       $meta['__raw_error__'] = [
         'message' => $this->getMessage(),
         'detail' => $this->getDescription(),
-        'backtrace' => explode("\n", $this->exception->getTraceAsString()),
+        'backtrace' => explode("\n", $this->throwable->getTraceAsString()),
       ];
     }
     $error = [
       'status' => (string) $this->getStatusCode(),
       'code' => (string) $this->getCode(),
-      'title' => str_replace('Exception', '', class_basename($this->exception)),
+      'title' => str_replace('Throwable', '', class_basename($this->throwable)),
       'detail' => (config($this->configFile . '.show_details_in_meta')) ? $this->getMessage() : 'An unknown error occurred',
       'meta' => $meta,
     ];
@@ -70,11 +70,11 @@ trait JsonHandler
   /**
    * Get default message from exception.
    *
-   * @return string Exception message
+   * @return string Throwable message
    */
   public function getMessage()
   {
-    return $this->exception->getMessage();
+    return $this->throwable->getMessage();
   }
 
   /**
@@ -84,9 +84,9 @@ trait JsonHandler
    */
   public function getDescription()
   {
-    return class_basename($this->exception) .
-    ' line ' . $this->exception->getLine() .
-    ' in ' . $this->exception->getFile();
+    return class_basename($this->throwable) .
+    ' line ' . $this->throwable->getLine() .
+    ' in ' . $this->throwable->getFile();
   }
 
   /**
@@ -97,8 +97,8 @@ trait JsonHandler
    */
   public function getStatusCode()
   {
-    if (method_exists($this->exception, 'getStatusCode')) {
-      $httpCode = $this->exception->getStatusCode();
+    if (method_exists($this->throwable, 'getStatusCode')) {
+      $httpCode = $this->throwable->getStatusCode();
     } else {
       $httpCode = config($this->configFile . '.http_code');
     }
@@ -114,8 +114,8 @@ trait JsonHandler
    */
   public function getCode($type = 'default')
   {
-    $code = $this->exception->getCode();
-    if (empty($this->exception->getCode())) {
+    $code = $this->throwable->getCode();
+    if (empty($this->throwable->getCode())) {
       $code = config($this->configFile . '.codes.' . $type);
     }
 
@@ -126,12 +126,12 @@ trait JsonHandler
    * Handle the json response. Check if exception is treated. If true call
    * the specific handler. If false set the default response to be returned.
    *
-   * @param  Exception $exception
+   * @param  Throwable $exception
    * @return JsonResponse
    */
-  public function jsonResponse(Exception $exception)
+  public function jsonResponse(Throwable $exception)
   {
-    $this->exception = $exception;
+    $this->throwable = $exception;
     $this->jsonApiResponse = new JsonApiResponse;
 
     if ($this->exceptionIsTreated()) {
@@ -151,7 +151,7 @@ trait JsonHandler
   /**
    * Check if method to treat exception exists.
    *
-   * @param  Exception $exception The exception to be checked
+   * @param  Throwable $exception The exception to be checked
    * @return bool              If method is callable
    */
   public function exceptionIsTreated()
@@ -162,22 +162,22 @@ trait JsonHandler
   /**
    * Call the exception handler after of to check if the method exists.
    *
-   * @param  Exception $exception
+   * @param  Throwable $exception
    * @return void                 Call the method
    */
   public function callExceptionHandler()
   {
-    $this->{$this->methodName()}($this->exception);
+    $this->{$this->methodName()}($this->throwable);
   }
 
   /**
    * The method name is the exception name with first letter in lower case.
    *
-   * @param  Exception $exception
+   * @param  Throwable $exception
    * @return string               The method name
    */
   public function methodName()
   {
-    return lcfirst(class_basename($this->exception));
+    return lcfirst(class_basename($this->throwable));
   }
 }
