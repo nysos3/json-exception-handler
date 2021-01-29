@@ -15,7 +15,7 @@ trait ModelNotFoundHandler
   {
     $entity = $this->extractEntityName($exception->getModel());
 
-    $ids = implode($exception->getIds(), ',');
+    $ids = implode(',', $exception->getIds());
 
     $meta = [
       'attribute' => 'id'
